@@ -1,7 +1,7 @@
 SRCS = ./src/main.c ./src/utils.c
 NAME = philo
 CC = gcc
-CFLAGS = -Wall -Werror -Wextra
+CFLAGS = -Wall -Werror -Wextra -lpthread -g
 RM = rm -rf
 LIBC = ar -rcs
 

@@ -11,10 +11,13 @@
 
 typedef struct s_philo
 {
-	pthread_t	phio;
-	size_t		eat_count;
-	size_t		tf_die;
-}			t_philo;
+	int				p_id;
+	pthread_t		phio;
+	size_t			eat_count;
+	size_t			tf_die;
+	pthread_mutex_t	*l;
+	pthread_mutex_t	*r;
+}					t_philo;
 
 typedef struct s_data
 {
