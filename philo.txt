@@ -1,0 +1,64 @@
+Philo 
+
+- Bir filozof yemeğini bitirdiğinde, çatallarını masaya geri koyar ve
+uyumaya başlarlar. Uyandıklarında tekrar düşünmeye başlarlar. Simülasyon şu durumlarda durur
+Bir filozof açlıktan ölür.
+
+- Filozoflar dönüşümlü olarak yemek yer, düşünür ya da uyurlar.
+Yemek yerken ne düşünürler ne de uyurlar;
+Düşünürken, ne yemek yerler ne de uyurlar;
+Ve elbette uyurken de ne yemek yerler ne de düşünürler.
+
+
+Bir filozof yemeğini bitirdiğinde, çatallarını masaya geri koyar ve
+uyumaya başlarlar. Uyandıklarında tekrar düşünmeye başlarlar. Simülasyon şu durumlarda durur
+Bir filozof açlıktan ölür.
+
+- Her filozofun yemek yemeye ihtiyacı vardır ve asla aç kalmamalıdır.
+
+- Filozoflar birbirleriyle konuşmazlar.
+
+- Filozoflar, başka bir filozofun ölmek üzere olup olmadığını bilmezler.
+
+
+
+Yasaklar ve Kurallar 
+- Global değişken yok.
+
+- Program(lar)ınız aşağıdaki argümanları almalıdır:
+filozof sayısı / ölmek için zaman / yemek için zaman / uyku için zaman [her filozofun kaç kez yemek yemesi gerektiği]
+
+- filozof sayısı: Filozofların sayısı ve aynı zamanda
+Çatalların.
+
+-  time_to_die (milisaniye cinsinden): Eğer bir filozof ölmek üzere olan zamanı yemeye başlamazsa
+Son öğünlerinin başlangıcından veya simülasyonun başlangıcından bu yana milisaniye geçerse ölürler.
+
+- time_to_eat (milisaniye cinsinden): Bir filozofun yemek yemesi için geçen süre.
+Bu süre zarfında iki çatal tutmaları gerekecektir.
+
+- time_to_sleep (milisaniye cinsinden): Bir filozofun uyumak için harcayacağı zaman.
+
+- number_of_times_each_philosopher_must_eat (isteğe bağlı bağımsız değişken): Eğer tüm
+filozoflar en az her_filozofun_yemesi_gereken_kez_sayıda_yemişlerdir
+kez belirtilirse simülasyon durur. Belirtilmezse, simülasyon bir
+filozof ölür.
+
+
+Terminal Ekran Çıktısı
+
+-   timestamp_in_ms X bir çatal aldı
+◦ timestamp_in_ms X yemek yiyor
+◦ timestamp_in_ms X uyuyor
+◦ timestamp_in_ms X düşünüyor
+◦ timestamp_in_ms X öldü
+timestamp_in_ms öğesini milisaniye cinsinden geçerli zaman damgası ile değiştirin
+ve X ile filozof numarası.
+
+- Görüntülenen bir durum mesajı başka bir mesajla karıştırılmamalıdır.
+
+- Bir filozofun öldüğünü bildiren bir mesaj en fazla 10 ms görüntülenmelidir
+filozofun gerçek ölümünden sonra.
+
+
+Programınızda herhangi bir veri yarışı olmamalıdır. !!!!!!!!!!!!!!

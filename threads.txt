@@ -1,0 +1,19 @@
+Threads (iplik)
+
+Threadler bir sunucuda birden çok istemci kullanarak aynanda aynı işin yapılması.
+
+örnek olarak bir web sitesine bir request atıldığında başka bir request daha atılabiliyor diğerinin cevap vermesi beklenmiyor.
+
+
+threads ile process arasındaki en büyük fark
+
+process da kendisi için ayrı bir yer tutulur ve iki farklı process aynı değişken üzerinde işlem yapılsada
+o değişkenin kopyası üretildiği için 2 farklı process da aynı değişkenin farklı şekilde değiştirilmesi bir birini etkilemez
+ancak thread larda bu böyle değil çünkü hepsini ortak kullanıyorlar
+
+aynı int sayıyı 2 thread 1 er 1 er arttırırsa ikiside aynı sayının değerini bir bir arttırır. 
+mesela bir global int i tanımlayalım ve değerini 0 koyalım ve bir fonksiyon içinde int a tanımlayalım ve a 1000 olana kadar
+i yi ve a yı arttıralım data race i önlediğimizi düşünürsek iki thread i de bu fonnksiyonu çalıştırırsa işleri bittiğinde i nin
+değeri 1000 olması gerekirken 2000 olucaktır.
+
+!!! processlar ayrı dünyaların insanları iken thread'ler aynı dünyanın insanları gibi bir laf söyleyebiliriz. !!!!
