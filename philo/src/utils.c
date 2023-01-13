@@ -46,6 +46,14 @@ int	ft_isdigit(char *str)
 	return (1);
 }
 
+long long time_present()
+{
+    struct timeval tv;
+
+	gettimeofday(&tv,NULL);
+	return ((((long long)tv.tv_sec)*1000)+(tv.tv_usec/1000));
+}
+
 void	reset_struct(t_arg *d)
 {
 	d->p_cnt = 0;

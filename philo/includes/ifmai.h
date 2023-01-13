@@ -5,6 +5,8 @@
 # include <stdlib.h>
 # include <pthread.h>
 # include <unistd.h>
+# include <sys/time.h>
+# include <time.h>
 
 # define ARGERROR "PLS -> ./philo philo_count time_dead time_eat time_sleep time_eat_count"
 # define ARGGWRONG "All arguments must be numbers"
@@ -21,14 +23,17 @@ typedef struct s_philo
 
 typedef struct s_data
 {
-	t_philo		*id;
-	pthread_t	phio;
-	size_t		p_cnt;
-	size_t		time_dead;
-	size_t		time_eat;
-	size_t		time_sleep;
-	size_t		time_eat_count;
-}			t_arg;
+	t_philo			*id;
+	pthread_t		phio;
+	size_t			p_cnt;
+	size_t			time_dead;
+	size_t			time_eat;
+	size_t			time_sleep;
+	size_t			time_eat_count;
+	pthread_mutex_t	print;
+	int				error;
+	pthread_mutex_t	*forks;
+}					t_arg;
 
 int		ft_atoi(const char *s);
 int		ft_isdigit(char *str);
