@@ -1,4 +1,4 @@
-SRCS = ./src/main.c ./src/utils.c
+SRCS = ./src/main.c ./src/utils.c ./src/eating.c
 NAME = philo
 CC = gcc
 CFLAGS = -Wall -Werror -Wextra -lpthread -g

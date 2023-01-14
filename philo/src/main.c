@@ -6,7 +6,7 @@
 /*   By: hozdemir <hozdemir@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/12 15:43:31 by hozdemir          #+#    #+#             */
-/*   Updated: 2023/01/13 19:45:49 by hozdemir         ###   ########.fr       */
+/*   Updated: 2023/01/14 05:47:23 by hozdemir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 static int	creat_thread(t_arg *arg)
 {
-	size_t			i;
+	long long			i;
 
 	i = -1;
 	arg->forks = malloc(sizeof(pthread_mutex_t) * arg->p_cnt); // çatal için mutex oluşumu
@@ -23,14 +23,14 @@ static int	creat_thread(t_arg *arg)
 	i = -1;
 	while(++i < arg->p_cnt) // mutexlerin adreslerini atama işlemi yapıyoruz.
 	{
-		arg->id[i].p_id = i + 1;
+		philo_struct_fill(arg, i);
 		arg->id[i].r = &arg->forks[i];
 		arg->id[i].l = &arg->forks[((i + 1) % arg->p_cnt)];
 	}
 	i = -1;
 	while(++i < arg->p_cnt)// filozof sayısı kadar oluşturmak için döngü
 	{
-		arg->error = pthread_create(&arg->id[i].phio, NULL, deneme, &arg->id[i]);//thread oluşturma
+		arg->error = pthread_create(&arg->id[i].phio, NULL, eating, &arg->id[i]);//thread oluşturma
 		if(arg->error)
 			return (0);
 	}
@@ -74,6 +74,7 @@ int main(int ac, char **av)
 	if(!check_arg(arg, av, ac)) // gelen argümanları kontrol et
 		return (0);
 	arg->id = malloc(sizeof(t_philo) * arg->p_cnt); // filizof kadar struct oluştur.
-	pthread_mutex_init(&arg->print, NULL);
+	arg->print = malloc(sizeof(pthread_mutex_t));
+	pthread_mutex_init(arg->print, NULL);
 	creat_thread(arg);
 }

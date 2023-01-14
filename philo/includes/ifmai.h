@@ -15,28 +15,34 @@ typedef struct s_philo
 {
 	int				p_id;
 	pthread_t		phio;
-	size_t			eat_count;
-	size_t			tf_die;
-	pthread_mutex_t	*l;
-	pthread_mutex_t	*r;
+	long long			eat_count;
+	long long			tf_die;
+	struct s_data	*data;
+	long long		present_time;
+	pthread_mutex_t	*l; // sol
+	pthread_mutex_t	*r; // sağ
 }					t_philo;
 
 typedef struct s_data
 {
 	t_philo			*id;
 	pthread_t		phio;
-	size_t			p_cnt;
-	size_t			time_dead;
-	size_t			time_eat;
-	size_t			time_sleep;
-	size_t			time_eat_count;
-	pthread_mutex_t	print;
+	long long		p_cnt;
+	long long		time_dead;
+	long long		time_eat;
+	long long		time_sleep;
+	long long		time_eat_count;
+	pthread_mutex_t	*print;
 	int				error;
+	long long		_1970;
 	pthread_mutex_t	*forks;
 }					t_arg;
 
-int		ft_atoi(const char *s);
-int		ft_isdigit(char *str);
-void	reset_struct(t_arg *d);
+int			ft_atoi(const char *s);
+int			ft_isdigit(char *str);
+void		reset_struct(t_arg *d);
+void		philo_struct_fill(t_arg *data, int i);
+void		*eating(void *p);
+long long	time_present();
 
 # endif
