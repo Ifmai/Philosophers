@@ -1,7 +1,7 @@
 SRCS = ./src/main.c ./src/utils.c ./src/eating.c
 NAME = philo
 CC = gcc
-CFLAGS = -Wall -Werror -Wextra -lpthread -g
+CFLAGS = -Wall -Werror -Wextra -lpthread 
 RM = rm -rf
 LIBC = ar -rcs
 

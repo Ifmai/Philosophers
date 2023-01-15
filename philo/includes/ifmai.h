@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ifmai.h                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: hozdemir <hozdemir@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/01/15 03:43:40 by hozdemir          #+#    #+#             */
+/*   Updated: 2023/01/15 03:44:36 by hozdemir         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #ifndef IFMAI_H
 # define IFMAI_H
 
@@ -8,19 +20,20 @@
 # include <sys/time.h>
 # include <time.h>
 
-# define ARGERROR "PLS -> ./philo philo_count time_dead time_eat time_sleep time_eat_count"
+# define ARGERROR "PLS -> ./philo philo_count time_dead\
+time_eat time_sleep time_eat_count"
 # define ARGGWRONG "All arguments must be numbers"
 
 typedef struct s_philo
 {
 	int				p_id;
 	pthread_t		phio;
-	long long			eat_count;
-	long long			tf_die;
+	long long		eat_count;
 	struct s_data	*data;
 	long long		present_time;
-	pthread_mutex_t	*l; // sol
-	pthread_mutex_t	*r; // sağ
+	int				control;
+	pthread_mutex_t	*l;
+	pthread_mutex_t	*r;
 }					t_philo;
 
 typedef struct s_data
@@ -32,7 +45,9 @@ typedef struct s_data
 	long long		time_eat;
 	long long		time_sleep;
 	long long		time_eat_count;
+	int				tf_die;
 	pthread_mutex_t	*print;
+	pthread_mutex_t	*tf_dies;
 	int				error;
 	long long		_1970;
 	pthread_mutex_t	*forks;
@@ -43,6 +58,8 @@ int			ft_isdigit(char *str);
 void		reset_struct(t_arg *d);
 void		philo_struct_fill(t_arg *data, int i);
 void		*eating(void *p);
-long long	time_present();
+long long	time_present(void);
+void		print_tables(t_philo *ph, long long time_s, char *str);
+void		check_control(t_philo *ph);
 
-# endif
+#endif

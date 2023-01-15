@@ -6,20 +6,34 @@
 /*   By: hozdemir <hozdemir@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/14 01:17:46 by hozdemir          #+#    #+#             */
-/*   Updated: 2023/01/14 05:48:15 by hozdemir         ###   ########.fr       */
+/*   Updated: 2023/01/15 03:52:47 by hozdemir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/ifmai.h"
 
-static int dead_check_philo(t_philo *ph)
+static int	dead_check_philo(t_philo *ph)
 {
+	static int	printtable = 1;
+
 	pthread_mutex_lock(ph->data->print);
-	if(time_present() - ph->data->_1970 - ph->present_time >= ph->data->time_dead)
+	if (ph->control == 0)
 	{
-		printf("%lld %d died\n", time_present() - ph->data->_1970, ph->p_id);
-		ph->tf_die = 1;
-		return (0);
+		if (time_present() - ph->data->_1970 - ph->present_time >= \
+				ph->data->time_dead)
+		{
+			if (printtable)
+			{
+				printf("%lld %d died\n", time_present() - \
+					ph->data->_1970, ph->p_id);
+				printtable = 0;
+			}
+			pthread_mutex_lock(ph->data->tf_dies);
+			ph->data->tf_die = 1;
+			pthread_mutex_unlock(ph->data->tf_dies);
+			pthread_mutex_unlock(ph->data->print);
+			return (0);
+		}
 	}
 	pthread_mutex_unlock(ph->data->print);
 	return (1);
@@ -27,16 +41,15 @@ static int dead_check_philo(t_philo *ph)
 
 static int	eat_philo(t_philo *ph)
 {
-	long long time;
+	long long	time;
 
-	pthread_mutex_lock(ph->data->print);
 	time = time_present() - ph->data->_1970;
-	printf("%lld %d is eating\n", time_present() - ph->data->_1970, ph->p_id);
-	pthread_mutex_unlock(ph->data->print);
-	while(1 && dead_check_philo(ph))
+	print_tables(ph, time_present() - ph->data->_1970, "is eating");
+	while (1 && dead_check_philo(ph) && ph->control != 1 && \
+		ph->eat_count != ph->data->time_eat_count)
 	{
-		if(ph->data->time_eat == time_present() - ph->data->_1970 - time
-			&& ph->tf_die != 1)
+		if (ph->data->time_eat == time_present() - ph->data->_1970 - time
+			&& ph->control != 1)
 		{
 			ph->present_time = time_present() - ph->data->_1970;
 			ph->eat_count++;
@@ -49,14 +62,13 @@ static int	eat_philo(t_philo *ph)
 
 static int	sleeping_philo(t_philo *ph)
 {
-	pthread_mutex_lock(ph->data->print);
-	printf("%lld %d is sleeping\n", time_present() - ph->data->_1970, ph->p_id);
-	pthread_mutex_unlock(ph->data->print);
-	while(1 && dead_check_philo(ph))
+	print_tables(ph, time_present() - ph->data->_1970, "is sleeping");
+	while (1 && dead_check_philo(ph) && ph->control != 1)
 	{
-		if(time_present() - ph->data->_1970 - ph->present_time == ph->data->time_sleep &&
-			ph->tf_die != 1)
-				return (1);
+		if (time_present() - ph->data->_1970 - \
+				ph->present_time == ph->data->time_sleep && \
+					ph->control != 1)
+			return (1);
 		usleep(50);
 	}
 	return (0);
@@ -64,11 +76,9 @@ static int	sleeping_philo(t_philo *ph)
 
 static int	thinking_philo(t_philo *ph)
 {
-	if(dead_check_philo(ph))
+	if (dead_check_philo(ph) && ph->control != 1)
 	{
-		pthread_mutex_lock(ph->data->print);
-		printf("%lld %d is thinking\n", time_present() - ph->data->_1970, ph->p_id);
-		pthread_mutex_unlock(ph->data->print);
+		print_tables(ph, time_present() - ph->data->_1970, "is thinking");
 		return (1);
 	}
 	return (0);
@@ -76,28 +86,29 @@ static int	thinking_philo(t_philo *ph)
 
 void	*eating(void *incoming)
 {
-	t_philo *ph;
+	t_philo	*ph;
 
 	ph = (t_philo *)incoming;
-	while(1 && ph->tf_die != 1 && ph->eat_count != ph->data->time_eat)
+	while (1 && ph->control != 1 && ph->eat_count != ph->data->time_eat_count)
 	{
 		pthread_mutex_lock(ph->r);
 		pthread_mutex_lock(ph->l);
-		pthread_mutex_lock(ph->data->print);
-		printf("%lld %d has taken a fork\n",
-		time_present() - ph->data->_1970, ph->p_id);
-		pthread_mutex_unlock(ph->data->print);
+		check_control(ph);
+		print_tables(ph, time_present() - ph->data->_1970, "has taken a fork");
 		eat_philo(ph);
-		if(ph->tf_die == 1)
-			return (0);
+		check_control(ph);
 		pthread_mutex_unlock(ph->r);
 		pthread_mutex_unlock(ph->l);
+		if (ph->control == 1)
+			break ;
 		sleeping_philo(ph);
-		if(ph->tf_die == 1)
-			return (0);
+		check_control(ph);
+		if (ph->control == 1)
+			break ;
 		thinking_philo(ph);
-		if(ph->tf_die == 1)
-			return (0);
+		check_control(ph);
+		if (ph->control == 1)
+			break ;
 	}
 	return (0);
 }
