@@ -6,7 +6,7 @@
 /*   By: hozdemir <hozdemir@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/12 15:43:31 by hozdemir          #+#    #+#             */
-/*   Updated: 2023/01/15 03:53:58 by hozdemir         ###   ########.fr       */
+/*   Updated: 2023/01/18 16:38:16 by hozdemir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,14 +19,28 @@ void	check_control(t_philo *ph)
 	pthread_mutex_unlock(ph->data->tf_dies);
 }
 
-void	print_tables(t_philo *ph, long long time_s, char *str)
+void	*one_philo(void *incoming)
 {
-	if (ph->control != 1)
+	t_philo		*ph;
+	long long	time;
+
+	ph = (t_philo *)incoming;
+	pthread_mutex_lock(ph->r);
+	print_tables(ph, time_present() - ph->data->_1970, "has taken a fork");
+	time = time_present() - ph->data->_1970;
+	while (1 && dead_check_philo(ph))
 	{
-		pthread_mutex_lock(ph->data->print);
-		printf("%lld %d %s\n", time_s, ph->p_id, str);
-		pthread_mutex_unlock(ph->data->print);
+		if (ph->data->time_dead == time_present() - ph->data->_1970 - time)
+		{
+			printf("%lld %d died\n", time_present() - \
+					ph->data->_1970, ph->p_id);
+			pthread_mutex_unlock(ph->r);
+			return (0);
+		}
+		usleep(50);
 	}
+	pthread_mutex_unlock(ph->r);
+	return (0);
 }
 
 static int	creat_thread(t_arg *arg)
@@ -34,7 +48,6 @@ static int	creat_thread(t_arg *arg)
 	long long			i;
 
 	i = -1;
-	arg->forks = malloc(sizeof(pthread_mutex_t) * arg->p_cnt);
 	while (++i < arg->p_cnt)
 		pthread_mutex_init(&arg->forks[i], NULL);
 	i = -1;
@@ -75,6 +88,8 @@ static int	check_arg(t_arg *arg, char **av, int ac)
 	arg->time_sleep = ft_atoi(av[4]);
 	if (ac == 6)
 		arg->time_eat_count = ft_atoi(av[5]);
+	arg->id = malloc(sizeof(t_philo) * arg->p_cnt);
+	arg->forks = malloc(sizeof(pthread_mutex_t) * arg->p_cnt);
 	return (1);
 }
 
@@ -91,10 +106,17 @@ int	main(int ac, char **av)
 	reset_struct(arg);
 	if (!check_arg(arg, av, ac))
 		return (0);
-	arg->id = malloc(sizeof(t_philo) * arg->p_cnt);
-	arg->print = malloc(sizeof(pthread_mutex_t));
-	arg->tf_dies = malloc(sizeof(pthread_mutex_t));
-	pthread_mutex_init(arg->print, NULL);
-	pthread_mutex_init(arg->tf_dies, NULL);
-	creat_thread(arg);
+	if (arg->p_cnt > 1)
+		creat_thread(arg);
+	else
+	{
+		pthread_mutex_init(&arg->forks[0], NULL);
+		philo_struct_fill(arg, 0);
+		arg->id[0].r = &arg->forks[0];
+		arg->error = pthread_create(&arg->id[0].phio,
+				NULL, one_philo, &arg->id[0]);
+		if (arg->error)
+			return (0);
+		pthread_join(arg->id[0].phio, NULL);
+	}
 }

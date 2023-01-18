@@ -6,13 +6,23 @@
 /*   By: hozdemir <hozdemir@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/14 01:17:46 by hozdemir          #+#    #+#             */
-/*   Updated: 2023/01/15 03:52:47 by hozdemir         ###   ########.fr       */
+/*   Updated: 2023/01/18 16:22:58 by hozdemir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/ifmai.h"
 
-static int	dead_check_philo(t_philo *ph)
+void	print_tables(t_philo *ph, long long time_s, char *str)
+{
+	if (ph->control != 1)
+	{
+		pthread_mutex_lock(ph->data->print);
+		printf("%lld %d %s\n", time_s, ph->p_id, str);
+		pthread_mutex_unlock(ph->data->print);
+	}
+}
+
+int	dead_check_philo(t_philo *ph)
 {
 	static int	printtable = 1;
 
@@ -74,16 +84,6 @@ static int	sleeping_philo(t_philo *ph)
 	return (0);
 }
 
-static int	thinking_philo(t_philo *ph)
-{
-	if (dead_check_philo(ph) && ph->control != 1)
-	{
-		print_tables(ph, time_present() - ph->data->_1970, "is thinking");
-		return (1);
-	}
-	return (0);
-}
-
 void	*eating(void *incoming)
 {
 	t_philo	*ph;
@@ -105,7 +105,7 @@ void	*eating(void *incoming)
 		check_control(ph);
 		if (ph->control == 1)
 			break ;
-		thinking_philo(ph);
+		print_tables(ph, time_present() - ph->data->_1970, "is thinking");
 		check_control(ph);
 		if (ph->control == 1)
 			break ;

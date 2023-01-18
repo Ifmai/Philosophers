@@ -1,5 +1,7 @@
 {
 	"files.associations": {
-		"ifmai.h": "c"
+		"ifmai.h": "c",
+		"ifmai_bonus.h": "c",
+		"stdio.h": "c"
 	}
 }

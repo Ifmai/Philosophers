@@ -1,0 +1,6 @@
+forklar farklı bir process'lardır.
+
+bir fork açıldığında pid > 0 ise parent process'dır
+
+bir fork açılıdğında pid == 0 ise child'dır.
+

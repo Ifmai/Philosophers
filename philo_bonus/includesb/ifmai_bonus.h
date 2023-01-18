@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ifmai.h                                            :+:      :+:    :+:   */
+/*   ifmai_bonus.h                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: hozdemir <hozdemir@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/01/15 03:43:40 by hozdemir          #+#    #+#             */
-/*   Updated: 2023/01/18 16:23:17 by hozdemir         ###   ########.fr       */
+/*   Created: 2023/01/15 07:23:52 by hozdemir          #+#    #+#             */
+/*   Updated: 2023/01/18 15:46:40 by hozdemir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,10 +19,13 @@
 # include <unistd.h>
 # include <sys/time.h>
 # include <time.h>
+# include <semaphore.h>
+# include <fcntl.h>
 
-# define ARGERROR "PLS -> ./philo philo_count time_dead\
-time_eat time_sleep time_eat_count"
-# define ARGGWRONG "All arguments must be numbers"
+# define ARGERROR "PLS -> \"./philo philo_count time_dead\
+time_eat time_sleep time_eat_count\"."
+# define ARGGWRONG "All arguments must be numbers."
+# define MINERR "Eat count min 1."
 
 typedef struct s_philo
 {
@@ -32,35 +35,27 @@ typedef struct s_philo
 	struct s_data	*data;
 	long long		present_time;
 	int				control;
-	pthread_mutex_t	*l;
-	pthread_mutex_t	*r;
 }					t_philo;
 
 typedef struct s_data
 {
 	t_philo			*id;
-	pthread_t		phio;
-	long long		p_cnt;
+	int				p_cnt;
 	long long		time_dead;
 	long long		time_eat;
 	long long		time_sleep;
 	long long		time_eat_count;
 	int				tf_die;
-	pthread_mutex_t	*print;
-	pthread_mutex_t	*tf_dies;
 	int				error;
+	int				*pid;
 	long long		_1970;
-	pthread_mutex_t	*forks;
+	sem_t			*forks;
 }					t_arg;
 
 int			ft_atoi(const char *s);
 int			ft_isdigit(char *str);
 void		reset_struct(t_arg *d);
 void		philo_struct_fill(t_arg *data, int i);
-void		*eating(void *p);
 long long	time_present(void);
-void		print_tables(t_philo *ph, long long time_s, char *str);
-void		check_control(t_philo *ph);
-int			dead_check_philo(t_philo *ph);
 
 #endif

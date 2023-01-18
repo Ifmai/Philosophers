@@ -1,16 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   utils.c                                            :+:      :+:    :+:   */
+/*   utils_bonus.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: hozdemir <hozdemir@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/01/15 03:37:53 by hozdemir          #+#    #+#             */
-/*   Updated: 2023/01/18 16:17:46 by hozdemir         ###   ########.fr       */
+/*   Created: 2023/01/15 07:27:12 by hozdemir          #+#    #+#             */
+/*   Updated: 2023/01/18 15:30:36 by hozdemir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/ifmai.h"
+#include "../includesb/ifmai_bonus.h"
 
 int	ft_atoi(const char *s)
 {
@@ -68,11 +68,11 @@ long long	time_present(void)
 
 void	philo_struct_fill(t_arg *arg, int i)
 {
-	arg->id[i].p_id = i + 1;
-	arg->id[i].data = arg;
-	arg->id[i].present_time = time_present() - arg->_1970;
-	arg->id[i].eat_count = 0;
-	arg->id[i].control = 0;
+	arg->id->p_id = i + 1;
+	arg->id->data = arg;
+	arg->id->present_time = time_present() - arg->_1970;
+	arg->id->eat_count = 0;
+	arg->id->control = 0;
 }
 
 void	reset_struct(t_arg *d)
@@ -84,8 +84,4 @@ void	reset_struct(t_arg *d)
 	d->time_eat_count = -1;
 	d->tf_die = 0;
 	d->_1970 = time_present();
-	d->print = malloc(sizeof(pthread_mutex_t));
-	d->tf_dies = malloc(sizeof(pthread_mutex_t));
-	pthread_mutex_init(d->print, NULL);
-	pthread_mutex_init(d->tf_dies, NULL);
 }
