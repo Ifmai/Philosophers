@@ -6,7 +6,7 @@
 /*   By: hozdemir <hozdemir@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/15 07:23:52 by hozdemir          #+#    #+#             */
-/*   Updated: 2023/01/19 11:13:21 by hozdemir         ###   ########.fr       */
+/*   Updated: 2023/01/19 13:52:12 by hozdemir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@
 # include <time.h>
 # include <semaphore.h>
 # include <fcntl.h>
+# include <signal.h>
 
 # define ARGERROR "PLS -> \"./philo philo_count time_dead\
 time_eat time_sleep time_eat_count\"."
@@ -58,7 +59,7 @@ typedef struct s_data
 int			ft_atoi(const char *s);
 int			ft_isdigit(char *str);
 long long	time_present(void);
-void		philo_struct_fill(t_arg *arg);
+void		philo_struct_fill(t_arg *arg, int i);
 void		reset_struct(t_arg *d);
-void		eating_philo(void *incoming);
+void		eating_philo(t_philo *incoming);
 #endif

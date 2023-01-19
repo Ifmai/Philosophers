@@ -6,14 +6,29 @@
 /*   By: hozdemir <hozdemir@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/15 07:26:15 by hozdemir          #+#    #+#             */
-/*   Updated: 2023/01/19 11:14:58 by hozdemir         ###   ########.fr       */
+/*   Updated: 2023/01/19 13:52:41 by hozdemir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includesb/ifmai_bonus.h"
 
-static void	free_sem(t_arg *arg)
+void	free_sem(t_arg *arg)
 {
+	int i;
+    int ret;
+    i = 0;
+    while (i < arg->p_cnt)
+    {
+        waitpid(-1, &ret, 0);
+        if (ret != 0)
+        {
+            i = -1;
+            while (++i < arg->p_cnt)
+                kill(arg->pid[i], 15);
+            break ;
+        }
+        i++;
+    }
 	sem_unlink("/fork");
 	sem_unlink("/print");
 	sem_unlink("/dead");
@@ -22,7 +37,7 @@ static void	free_sem(t_arg *arg)
 	sem_close(arg->dead);
 }
 
-static void	create_sem(t_arg *arg)
+void	create_sem(t_arg *arg)
 {
 	sem_unlink("/fork");
 	sem_unlink("/print");
@@ -32,24 +47,26 @@ static void	create_sem(t_arg *arg)
 	arg->dead = sem_open("/dead", O_CREAT, S_IRWXU, 1);
 }
 
-static void	open_forks(t_arg *arg)
+void	open_forks(t_arg *arg)
 {
 	int	i;
-	int status;
 	
-	i = 0;
-	arg->_1970 = time_present();
-	while(i < arg->p_cnt)
+	i = -1;
+	while(++i < arg->p_cnt)
 	{
+		arg->_1970 = time_present();
 		arg->pid[i] = fork();
-		if(arg->pid[i] < 0)
+		if (arg->pid[i] < 0)
 			return ;
-		else if(arg->pid[i] == 0)
+		else if (arg->pid[i] == 0)
+		{
+			arg->id = malloc(sizeof(t_philo *));
+			philo_struct_fill(arg, i);
 			eating_philo(arg->id);
+		}
 		usleep(100);
-		i++;
 	}
-	waitpid(-1, &status, 0);
+	free_sem(arg);
 }
 
 
@@ -78,7 +95,6 @@ static int	check_arg(t_arg *arg, char **av, int ac)
 		}
 	}
 	arg->pid = malloc(sizeof(int) * arg->p_cnt);
-	arg->id = malloc(sizeof(t_philo *) * arg->p_cnt);
 	return (1);
 }
 
@@ -96,8 +112,6 @@ int	main(int ac, char **av)
 	if (!check_arg(arg, av, ac))
 		return (0);
 	create_sem(arg);
-	philo_struct_fill(arg);
 	open_forks(arg);
-	free_sem(arg);
 	return (0);
 }

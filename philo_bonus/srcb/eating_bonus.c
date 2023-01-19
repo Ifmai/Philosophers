@@ -6,7 +6,7 @@
 /*   By: hozdemir <hozdemir@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/18 16:07:00 by hozdemir          #+#    #+#             */
-/*   Updated: 2023/01/19 11:20:59 by hozdemir         ###   ########.fr       */
+/*   Updated: 2023/01/19 13:49:01 by hozdemir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,11 +71,8 @@ static void sleeping_philo(t_philo *ph)
 	}
 }
 
-void	eating_philo(void *incoming)
+void	eating_philo(t_philo *ph)
 {
-	t_philo	*ph;
-
-	ph = (t_philo *)incoming;
 	while (1 && ph->data->tf_die != 1 && ph->eat_count != ph->data->time_eat_count)
 	{
 		sem_wait(ph->data->forks);

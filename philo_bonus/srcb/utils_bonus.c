@@ -6,7 +6,7 @@
 /*   By: hozdemir <hozdemir@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/15 07:27:12 by hozdemir          #+#    #+#             */
-/*   Updated: 2023/01/19 11:18:10 by hozdemir         ###   ########.fr       */
+/*   Updated: 2023/01/19 13:52:15 by hozdemir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,20 +66,14 @@ long long	time_present(void)
 	return (((tv.tv_sec) * 1000) + (tv.tv_usec / 1000));
 }
 
-void	philo_struct_fill(t_arg *arg)
+void	philo_struct_fill(t_arg *arg, int i)
 {
-	int	i;
 
-	i = 0;
-	while(i < arg->p_cnt)
-	{
 		arg->id->p_id = i + 1;
 		arg->id->data = arg;
 		arg->id->eat_count = 0;
 		arg->id->control = 0;
 		arg->id->present_time = 0;
-		i++;
-	}
 }
 
 void	reset_struct(t_arg *d)
@@ -90,4 +84,5 @@ void	reset_struct(t_arg *d)
 	d->time_sleep = 0;
 	d->time_eat_count = -1;
 	d->tf_die = 0;
+
 }
