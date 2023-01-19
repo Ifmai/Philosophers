@@ -2,6 +2,7 @@
 	"files.associations": {
 		"ifmai.h": "c",
 		"ifmai_bonus.h": "c",
-		"stdio.h": "c"
+		"stdio.h": "c",
+		"fcntl.h": "c"
 	}
 }

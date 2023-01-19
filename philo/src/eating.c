@@ -6,7 +6,7 @@
 /*   By: hozdemir <hozdemir@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/14 01:17:46 by hozdemir          #+#    #+#             */
-/*   Updated: 2023/01/18 16:22:58 by hozdemir         ###   ########.fr       */
+/*   Updated: 2023/01/18 20:00:14 by hozdemir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,7 +94,7 @@ void	*eating(void *incoming)
 		pthread_mutex_lock(ph->r);
 		pthread_mutex_lock(ph->l);
 		check_control(ph);
-		print_tables(ph, time_present() - ph->data->_1970, "has taken a fork");
+		print_tables(ph, time_present() - ph->data->_1970, "has taken a forks");
 		eat_philo(ph);
 		check_control(ph);
 		pthread_mutex_unlock(ph->r);

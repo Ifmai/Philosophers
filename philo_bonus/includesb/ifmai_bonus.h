@@ -6,7 +6,7 @@
 /*   By: hozdemir <hozdemir@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/15 07:23:52 by hozdemir          #+#    #+#             */
-/*   Updated: 2023/01/18 15:46:40 by hozdemir         ###   ########.fr       */
+/*   Updated: 2023/01/19 11:13:21 by hozdemir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,12 +50,15 @@ typedef struct s_data
 	int				*pid;
 	long long		_1970;
 	sem_t			*forks;
+	sem_t			*print;
+	sem_t			*dead;
+
 }					t_arg;
 
 int			ft_atoi(const char *s);
 int			ft_isdigit(char *str);
-void		reset_struct(t_arg *d);
-void		philo_struct_fill(t_arg *data, int i);
 long long	time_present(void);
-
+void		philo_struct_fill(t_arg *arg);
+void		reset_struct(t_arg *d);
+void		eating_philo(void *incoming);
 #endif
