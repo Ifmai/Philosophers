@@ -17,5 +17,3 @@ fclean:
 re: fclean all
 
 .PHONY: all bonus fclean re .c.o
-
-

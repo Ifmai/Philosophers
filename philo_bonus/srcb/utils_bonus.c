@@ -6,7 +6,7 @@
 /*   By: hozdemir <hozdemir@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/15 07:27:12 by hozdemir          #+#    #+#             */
-/*   Updated: 2023/01/19 13:52:15 by hozdemir         ###   ########.fr       */
+/*   Updated: 2023/01/25 20:13:43 by hozdemir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,12 +68,11 @@ long long	time_present(void)
 
 void	philo_struct_fill(t_arg *arg, int i)
 {
-
-		arg->id->p_id = i + 1;
-		arg->id->data = arg;
-		arg->id->eat_count = 0;
-		arg->id->control = 0;
-		arg->id->present_time = 0;
+	arg->id->p_id = i + 1;
+	arg->id->data = arg;
+	arg->id->eat_count = 0;
+	arg->id->control = 0;
+	arg->id->present_time = 0;
 }
 
 void	reset_struct(t_arg *d)

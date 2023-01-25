@@ -6,7 +6,7 @@
 /*   By: hozdemir <hozdemir@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/15 07:23:52 by hozdemir          #+#    #+#             */
-/*   Updated: 2023/01/19 13:52:12 by hozdemir         ###   ########.fr       */
+/*   Updated: 2023/01/25 20:27:28 by hozdemir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,7 @@ typedef struct s_data
 	int				tf_die;
 	int				error;
 	int				*pid;
+	int				time;
 	long long		_1970;
 	sem_t			*forks;
 	sem_t			*print;
@@ -62,4 +63,5 @@ long long	time_present(void);
 void		philo_struct_fill(t_arg *arg, int i);
 void		reset_struct(t_arg *d);
 void		eating_philo(t_philo *incoming);
+int			dead_check_philo(t_philo *ph);
 #endif

@@ -6,7 +6,7 @@
 /*   By: hozdemir <hozdemir@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/15 07:26:15 by hozdemir          #+#    #+#             */
-/*   Updated: 2023/01/19 13:52:41 by hozdemir         ###   ########.fr       */
+/*   Updated: 2023/01/25 20:02:13 by hozdemir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,6 +110,8 @@ int	main(int ac, char **av)
 	arg = malloc(sizeof(t_arg));
 	reset_struct(arg);
 	if (!check_arg(arg, av, ac))
+		return (0);
+	if(arg->p_cnt < 1)
 		return (0);
 	create_sem(arg);
 	open_forks(arg);
