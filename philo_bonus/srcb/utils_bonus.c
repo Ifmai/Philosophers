@@ -6,7 +6,7 @@
 /*   By: hozdemir <hozdemir@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/15 07:27:12 by hozdemir          #+#    #+#             */
-/*   Updated: 2023/01/25 20:13:43 by hozdemir         ###   ########.fr       */
+/*   Updated: 2023/01/27 00:53:13 by hozdemir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,5 +83,4 @@ void	reset_struct(t_arg *d)
 	d->time_sleep = 0;
 	d->time_eat_count = -1;
 	d->tf_die = 0;
-
 }

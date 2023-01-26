@@ -6,7 +6,7 @@
 /*   By: hozdemir <hozdemir@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/18 16:07:00 by hozdemir          #+#    #+#             */
-/*   Updated: 2023/01/26 02:28:04 by hozdemir         ###   ########.fr       */
+/*   Updated: 2023/01/27 00:49:28 by hozdemir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ int	dead_check_philo(t_philo *ph)
 	return (1);
 }
 
-static void eat_philo(t_philo *ph)
+static void	eat_philo(t_philo *ph)
 {
 	long long	time;
 
@@ -49,7 +49,6 @@ static void eat_philo(t_philo *ph)
 			&& ph->data->tf_die != 1)
 		{
 			ph->eat_count++;
-			printf("%lld yedi %d\n",ph->eat_count,ph->p_id);
 			ph->present_time = time_present() - ph->data->_1970;
 			break ;
 		}
@@ -57,14 +56,14 @@ static void eat_philo(t_philo *ph)
 	}
 }
 
-static void sleeping_philo(t_philo *ph)
+static void	sleeping_philo(t_philo *ph)
 {
-	if(ph->data->p_cnt == 1)
+	if (ph->data->p_cnt == 1)
 	{
 		ph->data->time = time_present() - ph->data->_1970;
 		while (1 && dead_check_philo(ph))
 		{
-			if (ph->data->time_dead == time_present() - ph->data->_1970 -
+			if (ph->data->time_dead == time_present() - ph->data->_1970 - \
 						ph->data->time)
 			{
 				printf("%lld %d died\n", time_present() - \
@@ -85,17 +84,16 @@ static void sleeping_philo(t_philo *ph)
 	}
 }
 
-
 void	eating_philo(t_philo *ph)
 {
-	printf("%lld total eat\n",ph->data->time_eat_count);
-	if(ph->data->p_cnt == 1)
+	if (ph->data->p_cnt == 1)
 	{
 		sem_wait(ph->data->forks);
 		print_tables(ph, time_present() - ph->data->_1970, "has taken a fork");
 		sleeping_philo(ph);
 	}
-	while (1 && ph->data->tf_die != 1 && ph->eat_count != ph->data->time_eat_count)
+	while (1 && ph->data->tf_die != 1 && \
+			ph->eat_count != ph->data->time_eat_count)
 	{
 		sem_wait(ph->data->forks);
 		sem_wait(ph->data->forks);
@@ -106,6 +104,6 @@ void	eating_philo(t_philo *ph)
 		sleeping_philo(ph);
 		print_tables(ph, time_present() - ph->data->_1970, "is thinking");
 	}
-	if(ph->eat_count == ph->data->time_eat_count)
+	if (ph->eat_count == ph->data->time_eat_count)
 		exit(0);
 }

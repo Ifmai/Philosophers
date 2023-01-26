@@ -6,7 +6,7 @@
 /*   By: hozdemir <hozdemir@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/15 07:26:15 by hozdemir          #+#    #+#             */
-/*   Updated: 2023/01/25 20:02:13 by hozdemir         ###   ########.fr       */
+/*   Updated: 2023/01/27 00:53:07 by hozdemir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,21 +14,22 @@
 
 void	free_sem(t_arg *arg)
 {
-	int i;
-    int ret;
-    i = 0;
-    while (i < arg->p_cnt)
-    {
-        waitpid(-1, &ret, 0);
-        if (ret != 0)
-        {
-            i = -1;
-            while (++i < arg->p_cnt)
-                kill(arg->pid[i], 15);
-            break ;
-        }
-        i++;
-    }
+	int	i;
+	int	ret;
+
+	i = 0;
+	while (i < arg->p_cnt)
+	{
+		waitpid(-1, &ret, 0);
+		if (ret != 0)
+		{
+			i = -1;
+			while (++i < arg->p_cnt)
+				kill(arg->pid[i], 15);
+			break ;
+		}
+		i++;
+	}
 	sem_unlink("/fork");
 	sem_unlink("/print");
 	sem_unlink("/dead");
@@ -50,9 +51,9 @@ void	create_sem(t_arg *arg)
 void	open_forks(t_arg *arg)
 {
 	int	i;
-	
+
 	i = -1;
-	while(++i < arg->p_cnt)
+	while (++i < arg->p_cnt)
 	{
 		arg->_1970 = time_present();
 		arg->pid[i] = fork();
@@ -68,7 +69,6 @@ void	open_forks(t_arg *arg)
 	}
 	free_sem(arg);
 }
-
 
 static int	check_arg(t_arg *arg, char **av, int ac)
 {
@@ -88,7 +88,7 @@ static int	check_arg(t_arg *arg, char **av, int ac)
 	if (ac == 6)
 	{
 		arg->time_eat_count = ft_atoi(av[5]);
-		if(arg->time_eat_count < 0)
+		if (arg->time_eat_count < 0)
 		{
 			printf("%s", MINERR);
 			return (0);
@@ -111,7 +111,7 @@ int	main(int ac, char **av)
 	reset_struct(arg);
 	if (!check_arg(arg, av, ac))
 		return (0);
-	if(arg->p_cnt < 1)
+	if (arg->p_cnt < 1)
 		return (0);
 	create_sem(arg);
 	open_forks(arg);

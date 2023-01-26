@@ -1,7 +1,7 @@
 SRCS = ./src/main.c ./src/utils.c ./src/eating.c
 NAME = philo
 CC = gcc
-CFLAGS = -Wall -Werror -Wextra -lpthread -fsanitize=address -g
+CFLAGS = -Wall -Werror -Wextra -lpthread
 RM = rm -rf
 LIBC = ar -rcs
 
@@ -16,6 +16,6 @@ fclean:
 
 re: fclean all
 
-.PHONY: all bonus fclean re .c.o
+.PHONY: all bonus fclean re 
 
 
