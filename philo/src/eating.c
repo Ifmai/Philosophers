@@ -6,7 +6,7 @@
 /*   By: hozdemir <hozdemir@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/14 01:17:46 by hozdemir          #+#    #+#             */
-/*   Updated: 2023/01/18 20:00:14 by hozdemir         ###   ########.fr       */
+/*   Updated: 2023/03/30 22:40:11 by hozdemir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,12 +14,11 @@
 
 void	print_tables(t_philo *ph, long long time_s, char *str)
 {
+	check_control(ph);
+	pthread_mutex_lock(ph->data->print);
 	if (ph->control != 1)
-	{
-		pthread_mutex_lock(ph->data->print);
 		printf("%lld %d %s\n", time_s, ph->p_id, str);
-		pthread_mutex_unlock(ph->data->print);
-	}
+	pthread_mutex_unlock(ph->data->print);
 }
 
 int	dead_check_philo(t_philo *ph)
